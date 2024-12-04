@@ -12,7 +12,7 @@ def product_list_showing_view(request):
 
     # 렌더링 데이터
     render_data = {
-        'username': user_id if user_id else 'Guest',  # user_id가 없으면 Guest로 표시
+        'username': user_id,  # user_id가 없으면 Guest로 표시
         'products': []
     }
 
