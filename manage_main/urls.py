@@ -12,6 +12,7 @@ urlpatterns = [
     path('', index_view, name='index'), # 초기화면
     path('login/', login_showing_view), # 로그인 화면
     path('login/process/', login_process_view), # 로그인 처리
-    path('register/', register_showing_view) # 계정등록 화면
+    path('register/', register_showing_view), # 계정등록 화면
+    path('register/process/', register_process_view) # 계정등록 화면
 
 ]
