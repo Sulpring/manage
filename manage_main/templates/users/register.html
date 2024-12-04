@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계정 등록</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-title">계정 등록</h1>
+        <form method="POST" action="/manage/login/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id">아이디</label>
+                <input type="text" id="id" name="id" placeholder="아이디를 입력하세요" required>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+            </div>
+            <button type="submit" class="login-button">계정 등록</button>
+        </form>
+        <div class="signup-link">
+            계정이 있으신가요? 로그인 
+        </div>
+    </div>
+</body>
+</html>

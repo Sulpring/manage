@@ -26,6 +26,7 @@ def login_view(request):
             return JsonResponse({"message": "등록성공"})
     return render(request, 'users/login.html')
 
+# def reg
 
 
 def register_process_view(request):
