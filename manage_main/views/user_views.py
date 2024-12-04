@@ -5,10 +5,14 @@ from manage_main.models import User
 
 # 초기화면(=로그인 화면) 보여주기
 def index_view(request):
+    return redirect('login')
+
+# 로그인 화면 보여주기
+def login_showing_view(request):
     return render(request, 'users/login.html')
 
 # 로그인 로직
-def login_view(request):
+def login_process_view(request):
     if request.method == 'POST':
         user_id = request.POST.get('id')
         password = request.POST.get('password')
@@ -26,8 +30,9 @@ def login_view(request):
             return JsonResponse({"message": "등록성공"})
     return render(request, 'users/login.html')
 
-# def reg
-
+# 레지스터 보여주는 뷰
+def register_showing_view(request):
+    return render(request, 'users/register.html')
 
 def register_process_view(request):
     if(request.method == 'POST'):
