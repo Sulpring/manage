@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from manage_main.models import User, Product
+from django.http import JsonResponse
 
 def product_list_showing_view(request):
     # 요청 헤더에서 쿠키의 'id' 값 가져오기
     user_id = request.COOKIES.get('id', None)
 
     if(user_id is None):
-        print('응애')
         return redirect('login')
 
     products = Product.objects.filter(user_id=user_id)
@@ -21,9 +21,6 @@ def product_list_showing_view(request):
         for product in products
     ]
 
-    # 결과 확인
-    print(product_list)
-
     # 렌더링 데이터
     render_data = {
         'username': user_id,  # user_id가 없으면 Guest로 표시
@@ -31,6 +28,61 @@ def product_list_showing_view(request):
     }
 
     return render(request, 'products/product_list.html', render_data)
+
+# 수정 뷰
+def product_edit_view(request):
+    if request.method == "POST":
+        print("잉")
+        print(request.POST)
+        # 원래 값
+        original_name = request.POST.get("original_name")
+        original_code = request.POST.get("original_code")
+        original_img_url = request.POST.get("original_img_url")
+
+        # 새 입력 값
+        input_name = request.POST.get("input_name")
+        input_code = request.POST.get("input_code")
+        input_img_url = request.POST.get("input_img_url")
+        input_description = request.POST.get("input_description")
+
+        print(original_name, " ", original_code, " ", original_img_url)
+        print(input_name, input_code, input_img_url, input_description)
+
+        # 기존 Product 검색 및 수정
+        product = Product.objects.filter(name=original_name, code=original_code, img_url=original_img_url).first()
+        if product:
+            product.name = input_name
+            product.code = input_code
+            product.img_url = input_img_url
+            product.human_text = input_description
+            product.save()
+            return redirect('product_list')  # 수정 완료 후 목록 페이지로 리다이렉트
+        else:
+            return JsonResponse({"message":"Product not found"}, status=404)
+
+
+# 삭제 뷰
+def product_delete_view(request):
+    # 요청 헤더에서 쿠키의 'id' 값 가져오기
+    user_id = request.COOKIES.get('id', None)
+
+    if(user_id is None):
+        return redirect('login')
+    
+    name = request.POST.get('name')
+    code = request.POST.get('code')
+    img_url = request.POST.get('img_url')
+
+    # 조건에 맞는 Product 객체 필터링 및 삭제
+    products = Product.objects.filter(name=name, code=code, img_url=img_url)
+    
+    if products.exists():
+        products.delete()
+        return redirect('product_list')
+    else:
+        return JsonResponse({"error": "No matching product found."}, status=404)
+
+
 
 def product_add_showing_view(request):
     # 요청 헤더에서 쿠키의 'id' 값 가져오기
@@ -42,8 +94,7 @@ def product_add_showing_view(request):
 
     # 렌더링 데이터
     render_data = {
-        'username': user_id,  # user_id가 없으면 Guest로 표시
-        'products': []
+        'username': user_id,  
     }
 
     return render(request, 'products/product_add.html', render_data)

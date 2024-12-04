@@ -10,6 +10,8 @@ from manage_main.views.product_view import (
     product_list_showing_view, # 프로덕트 리스트 템플릿 뷰
     product_add_showing_view, # 프로덕트 추가 템플릿 뷰
     product_add_process_view, # 프로덕트 추가 처리 뷰
+    product_delete_view, # 프로덕트 삭제 뷰
+    product_edit_view, # 프로덕트 수정 뷰
 )
 
 urlpatterns = [
@@ -21,5 +23,7 @@ urlpatterns = [
 
     path('product/list/', product_list_showing_view, name='product_list'), # 프로덕트 리스트 화면
     path('product/add/', product_add_showing_view), # 프로덕트 추가 화면
-    path('product/add/process/', product_add_process_view) # 프로덕트 추가 뷰
+    path('product/add/process/', product_add_process_view), # 프로덕트 추가 뷰
+    path('product/delete/', product_delete_view), # 프로덕트 삭제 뷰
+    path('product/edit/', product_edit_view), # 프로덕트 수정 뷰
 ]

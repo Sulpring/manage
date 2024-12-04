@@ -49,7 +49,7 @@ h2 {
 .edit-button {
     background-color: #343a40;
     color: #fff;
-    padding: 0.2rem 0.5rem;
+    padding: 0.4rem 1rem; /* 버튼 크기 조정 */
     text-decoration: none;
     border-radius: 4px;
     font-size: 0.9rem;
@@ -86,7 +86,8 @@ h2 {
 }
 
 .product-table td {
-    vertical-align: top; /* 내용이 길어질 경우 상단 정렬 */
+    vertical-align: middle; /* 테이블 셀 높이와 중앙 정렬 */
+    height: 3rem; /* 셀 높이 */
 }
 
 /* Description column */
@@ -101,12 +102,15 @@ h2 {
 /* Actions column */
 .product-table th:nth-child(5),
 .product-table td:nth-child(5) {
-    width: 150px; /* 관리 열 너비 */
+    width: 200px; /* 관리 열 너비를 늘림 */
     text-align: center;
 }
 
 .actions {
-    position: relative;
+    display: flex; /* 버튼 정렬을 위한 Flexbox */
+    gap: 0.5rem; /* 버튼 간격 */
+    justify-content: center;
+    align-items: center;
 }
 
 .action-buttons {
@@ -114,4 +118,15 @@ h2 {
     gap: 0.5rem;
     justify-content: center;
     align-items: center;
+}
+
+/* Input styling inside table */
+.product-table input {
+    width: 100%; /* 테이블 셀 가로 너비와 일치 */
+    height: 100%; /* 테이블 셀 높이에 맞춤 */
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.9rem;
 }

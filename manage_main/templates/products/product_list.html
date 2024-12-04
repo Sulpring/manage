@@ -6,6 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 관리 서비스</title>
     <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+    <script>
+        // 수정 모드 활성화
+        function enableEditMode(row) {
+            const cells = row.querySelectorAll('td');
+            console.log("응애");
+            console.log(cells);
+            let totalHtml = ``;
+            cells.forEach((cell, index) => {
+                if (index === cells.length - 1) return; // 관리 열 무시
+                console.log(cell.innerHTML)
+                const originalText = (cell.innerHTML);
+                const fieldName = cells[index].getAttribute("data-original-name"); // 원래 필드 이름
+                const inputName = `input_${fieldName}`; // 수정된 값의 이름
+
+                // 원래 값(hidden) 저장 + 입력 필드
+                cell.innerHTML = `
+                    <input id="${fieldName}_input" type="text" name="${inputName}" value="${originalText}" />
+                `;
+                totalHtml += `
+                    <input id=${fieldName} type="hidden" name="original_${fieldName}" value="${originalText}" />
+                    <input id=${inputName} type="hidden" name="${inputName}" value="${originalText}" />`
+                console.log("으으", cell.innerHTML)
+            });
+            console.log("아아", totalHtml);
+
+            const actionsCell = row.querySelector('.actions');
+            const up = `<form action="/manage/product/edit/" method="post">
+                    {% csrf_token %}
+                    `;
+            const down = `
+                 <button type="button" class="edit-button" onclick="changeValue(this.closest('form'))">수정 완료</button>
+                    </form>`;
+
+            actionsCell.innerHTML = up + totalHtml + down;
+            console.log("흐아", actionsCell.innerHTML);
+        }
+
+        // 값 바꾸기
+        function changeValue(form) {
+            const fields = ['name', 'code', 'img_url', 'description'];
+            console.log("흐우우우우");
+
+            fields.forEach((elem)=>{
+                const current_input_value = document.getElementById(elem+"_input");
+                const hidden_input = document.getElementById('input_'+elem);
+                console.log("하이");
+                console.log(current_input_value.value);
+                console.log(hidden_input.value);
+
+                document.getElementById('input_'+elem).value = current_input_value.value;
+            })
+
+            form.submit();
+        }
+    </script>
 </head>
 <body>
     <header class="navbar">
@@ -32,16 +87,20 @@
             <tbody>
                 {% for product in products %}
                 <tr>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.code }}</td>
-                    <td>{{ product.img_url }}</td>
-                    <td>{{ product.description }}</td>
+                    <td data-original-name="name">{{ product.name }}</td>
+                    <td data-original-name="code">{{ product.code }}</td>
+                    <td data-original-name="img_url">{{ product.img_url }}</td>
+                    <td data-original-name="description">{{ product.description }}</td>
                     <td class="actions">
-                        <div class="action-buttons">
+                        <button class="edit-button" onclick="enableEditMode(this.closest('tr'));">수정</button>
+                        <form action="/manage/product/delete/" method="post" style="display:inline;">
                             {% csrf_token %}
-                            <a href="/manage/product/add/" class="edit-button">수정</a>
-                            <a href="/manage/product/add/" class="delete-button">삭제</a>
-                        </div>
+                            <input type="hidden" name="name" value="{{ product.name }}">
+                            <input type="hidden" name="code" value="{{ product.code }}">
+                            <input type="hidden" name="img_url" value="{{ product.img_url }}">
+                            <input type="hidden" name="description" value="{{ product.description }}">
+                            <button type="submit" class="delete-button">삭제</button>
+                        </form>
                     </td>
                 </tr>
                 {% empty %}
