@@ -1,3 +1,4 @@
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -40,12 +41,30 @@ h2 {
     border-radius: 4px;
     font-size: 0.9rem;
     font-weight: bold;
+    border: none;
+    cursor: pointer;
 }
 
-.add-button:hover {
+.delete-button,
+.edit-button {
+    background-color: #343a40;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.add-button:hover,
+.delete-button:hover,
+.edit-button:hover {
     background-color: #495057;
 }
 
+/* Table styling */
 .product-table {
     width: 100%;
     border-collapse: collapse;
@@ -57,6 +76,8 @@ h2 {
     border: 1px solid #dee2e6;
     padding: 0.75rem;
     text-align: left;
+    word-wrap: break-word; /* 텍스트 줄바꿈 */
+    overflow-wrap: break-word; /* 긴 텍스트 강제 줄바꿈 */
 }
 
 .product-table th {
@@ -64,11 +85,33 @@ h2 {
     font-weight: bold;
 }
 
-.product-table td a {
-    color: #007bff;
-    text-decoration: none;
+.product-table td {
+    vertical-align: top; /* 내용이 길어질 경우 상단 정렬 */
 }
 
-.product-table td a:hover {
-    text-decoration: underline;
+/* Description column */
+.product-table th:nth-child(4),
+.product-table td:nth-child(4) {
+    max-width: 300px; /* 설명 열의 최대 너비 제한 */
+    white-space: normal; /* 텍스트 줄바꿈 허용 */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Actions column */
+.product-table th:nth-child(5),
+.product-table td:nth-child(5) {
+    width: 150px; /* 관리 열 너비 */
+    text-align: center;
+}
+
+.actions {
+    position: relative;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
 }
