@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 커스텀 앱
+    'manage_main'
 ]
 
 MIDDLEWARE = [
