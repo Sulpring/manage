@@ -6,6 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>계정 등록</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form"); // 폼 선택
+        form.addEventListener("submit", (event) => {
+            event.preventDefault(); // 기본 폼 동작 방지
+
+            const formData = new FormData(form); // 폼 데이터 생성
+            const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": csrfToken, // CSRF 토큰 설정
+                },
+            })
+            .then((response) => {
+                if (response.status === 201) {
+                    // 성공 응답일 경우 login 페이지로 리다이렉트
+                    window.location.href = "/manage/login/";
+                } else {
+                    // 오류 메시지 처리
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data && data.error) {
+                    alert(data.error); // 오류 메시지를 팝업으로 표시
+                }
+            })
+            .catch((error) => {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+                console.error("Error:", error);
+            });
+        });
+    });
+
+    </script>
 </head>
 <body>
     <div class="login-container">
@@ -23,7 +61,7 @@
             <button type="submit" class="login-button">계정 등록</button>
         </form>
         <div class="signup-link">
-            계정이 있으신가요? <a href="/manage/login">로그인</a> 
+            계정이 있으신가요? <a href="/manage/login">로그인</a>
         </div>
     </div>
 </body>
