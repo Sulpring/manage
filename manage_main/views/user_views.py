@@ -26,3 +26,21 @@ def login_view(request):
             return JsonResponse({"message": "등록성공"})
     return render(request, 'users/login.html')
 
+
+
+def register_process_view(request):
+    if(request.method == 'POST'):
+        user_id = request.POST.get('id')
+        password = request.POST.get('password')
+
+        user = User.objects.filter(id=user_id).first() or False # 없으면 False
+        if(user == False): # 없으면 정상작동
+            new_user = User(
+                id = user_id,
+                password = password
+            )
+            new_user.save()
+            return JsonResponse({"message": "생성이 완료 되었습니다."})
+        else:
+            return JsonResponse({"message":"이미 존재하는 계정입니다."})
+
