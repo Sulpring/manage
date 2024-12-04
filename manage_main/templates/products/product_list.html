@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 관리 서비스</title>
+    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+</head>
+<body>
+    <header class="navbar">
+        <h1>상품 관리 서비스</h1>
+    </header>
+
+    <main class="container">
+        <h2>안녕하세요, {{ username }}님</h2>
+        <div class="product-header">
+            <h3>상품 목록</h3>
+            <a href="/manage/" class="add-button">상품 추가</a>
+        </div>
+
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>상품 코드</th>
+                    <th>이미지 URL</th>
+                    <th>설명</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.code }}</td>
+                    <td>{{ product.img_url }}</td>
+                    <td>{{ product.description }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">등록된 상품이 없습니다.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
